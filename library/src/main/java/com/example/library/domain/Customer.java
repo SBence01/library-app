@@ -13,18 +13,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Book {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID Id;
+    private UUID id;
 
-    private String title;
+    private String name;
 
-    private String author;
+    private String email;
 
-    @Column(name = "publication_year")
-    private Integer publicationYear;
-
-    private String category;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 }
