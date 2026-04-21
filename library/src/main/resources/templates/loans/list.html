@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kölcsönzések</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        nav { background-color: #333; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        table { border-collapse: collapse; width: 100%; background-color: white; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #333; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .btn { padding: 8px 15px; margin: 2px; text-decoration: none; border-radius: 4px; color: white; display: inline-block; }
+        .btn-new { background-color: #28a745; }
+        .btn-return { background-color: #17a2b8; }
+        .btn-delete { background-color: #dc3545; }
+        .status-returned { color: #28a745; font-weight: bold; }
+        .status-active { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/">Főoldal</a>
+    <a href="/books">Könyvek</a>
+    <a href="/customers">Ügyfelek</a>
+    <a href="/loans">Kölcsönzések</a>
+    <a href="/reviews">Értékelések</a>
+</nav>
+
+<h1>Kölcsönzések listája</h1>
+<a href="/loans/new" class="btn btn-new">+ Új kölcsönzés</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>Könyv</th>
+        <th>Ügyfél</th>
+        <th>Kölcsönzés dátuma</th>
+        <th>Határidő</th>
+        <th>Visszahozva</th>
+        <th>Státusz</th>
+        <th>Műveletek</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="loan : ${loans}">
+        <td th:text="${loan.book.title}"></td>
+        <td th:text="${loan.customer.name}"></td>
+        <td th:text="${loan.loanDate}"></td>
+        <td th:text="${loan.dueDate}"></td>
+        <td th:text="${loan.returnDate != null ? loan.returnDate : '-'}"></td>
+        <td>
+            <span th:if="${loan.returned}" class="status-returned">Visszahozva</span>
+            <span th:unless="${loan.returned}" class="status-active">Aktív</span>
+        </td>
+        <td>
+            <a th:if="${!loan.returned}"
+               th:href="@{/loans/return/{id}(id=${loan.id})}"
+               class="btn btn-return">Visszahoz</a>
+            <a th:href="@{/loans/delete/{id}(id=${loan.id})}" class="btn btn-delete"
+               onclick="return confirm('Biztosan törlöd?')">Töröl</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

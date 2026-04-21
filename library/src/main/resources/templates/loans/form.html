@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Új kölcsönzés</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        nav { background-color: #333; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        form { background-color: white; padding: 20px; border-radius: 5px; max-width: 500px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { margin-top: 20px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-cancel { background-color: #6c757d; text-decoration: none; color: white; padding: 10px 20px; margin-left: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/">Főoldal</a>
+    <a href="/books">Könyvek</a>
+    <a href="/customers">Ügyfelek</a>
+    <a href="/loans">Kölcsönzések</a>
+    <a href="/reviews">Értékelések</a>
+</nav>
+
+<h1>Új kölcsönzés</h1>
+
+<form th:action="@{/loans}" method="post">
+
+    <label>Könyv:</label>
+    <select name="bookId" required>
+        <option value="">-- Válassz könyvet --</option>
+        <option th:each="book : ${books}"
+                th:value="${book.id}"
+                th:text="${book.title + ' - ' + book.author}"></option>
+    </select>
+
+    <label>Ügyfél:</label>
+    <select name="customerId" required>
+        <option value="">-- Válassz ügyfelet --</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.name + ' (' + customer.email + ')'}"></option>
+    </select>
+
+    <button type="submit">Kölcsönzés</button>
+    <a href="/loans" class="btn-cancel">Mégse</a>
+</form>
+</body>
+</html>

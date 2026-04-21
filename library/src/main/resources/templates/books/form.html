@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Könyv űrlap</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        nav { background-color: #333; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        form { background-color: white; padding: 20px; border-radius: 5px; max-width: 500px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { margin-top: 20px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-cancel { background-color: #6c757d; text-decoration: none; color: white; padding: 10px 20px; margin-left: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Főoldal</a>
+        <a href="/books">Könyvek</a>
+        <a href="/customers">Ügyfelek</a>
+        <a href="/loans">Kölcsönzések</a>
+        <a href="/reviews">Értékelések</a>
+    </nav>
+
+    <h1 th:text="${book.id != null} ? 'Könyv szerkesztése' : 'Új könyv'"></h1>
+
+    <form th:action="${book.id != null} ? @{/books/edit/{id}(id=${book.id})} : @{/books}"
+          th:object="${book}" method="post">
+
+        <label>Cím:</label>
+        <input type="text" th:field="*{title}" required>
+
+        <label>Szerző:</label>
+        <input type="text" th:field="*{author}" required>
+
+        <label>Kiadási év:</label>
+        <input type="number" th:field="*{publicationYear}" required>
+
+        <label>Kategória:</label>
+        <input type="text" th:field="*{category}">
+
+        <button type="submit">Mentés</button>
+        <a href="/books" class="btn-cancel">Mégse</a>
+    </form>
+</body>
+</html>
